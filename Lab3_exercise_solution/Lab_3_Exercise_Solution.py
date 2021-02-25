@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 spark = SparkSession.builder \
         .master("local[2]") \
         .appName("Lab 3 Exercise") \
-        .config("spark.local.dir","/fastdata/your_username") \
+        .config("spark.local.dir","/fastdata/lip20ps") \
         .getOrCreate()
 sc = spark.sparkContext
 sc.setLogLevel("WARN")
@@ -18,7 +18,7 @@ from pyspark.ml.recommendation import ALS
 from pyspark.sql import Row
 
 # load in ratings data
-ratings = spark.read.load('../Data/ml-latest-small/ratings.csv', format = 'csv', inferSchema = "true", header = "true").cache()
+ratings = spark.read.load('/home/lip20ps/com6012/ScalableML/Data/ml-latest-small/ratings.csv', format = 'csv', inferSchema = "true", header = "true").cache()
 ratings.show(20,False)
 myseed=6012
 
@@ -63,7 +63,7 @@ for rect in rects:
     height = rect.get_height()
     ax.annotate(f'{height:.4f}', xy=(rect.get_x() + rect.get_width() / 2, height), xytext=(0, 3), textcoords="offset points", ha='center', va='bottom')
 
-plt.savefig("../Output/Lab3_plot.png")
+plt.savefig("./Output/Lab3_plot.png")
 
 
 # select a user
@@ -78,7 +78,7 @@ movies = [row.movieId for row in movies]
 print(movies)
 
 # loading movies.csv
-movie_data = spark.read.load('../Data/ml-latest-small/movies.csv', format = 'csv', inferSchema = "true", header = "true").cache()
+movie_data = spark.read.load('/home/lip20ps/com6012/ScalableML/Data/ml-latest-small/movies.csv', format = 'csv', inferSchema = "true", header = "true").cache()
 movie_data.show(20, False)
 
 # find movie according to movie_id
