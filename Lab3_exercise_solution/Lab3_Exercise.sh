@@ -4,7 +4,7 @@
 #$ -l rmem=8G #number of memery
 #$ -P rse-com6012 # require a com6012-reserved node
 #$ -q rse-com6012.q # specify com6012 queue
-#$ -o ../Output/Lab3_exercise.txt  #This is where your output and errors are logged.
+#$ -o ./Output/Lab3_exercise.txt  #This is where your output and errors are logged.
 #$ -j y # normal and error outputs into a single file (the file above)
 #$ -M youremail@shef.ac.uk #Notify you by email, remove this line if you don't like
 #$ -m ea #Email you when it finished or aborted
@@ -16,4 +16,4 @@ module load apps/python/conda
 
 source activate myspark
 
-spark-submit ../Code/Lab_3_Exercise_Solution.py
+spark-submit Lab_3_Exercise_Solution.py
