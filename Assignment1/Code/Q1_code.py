@@ -18,7 +18,7 @@ spark = SparkSession.builder \
 sc = spark.sparkContext
 sc.setLogLevel("WARN")  # This can only affect the log level after it is executed.
 
-logFile = spark.read.text("/Users/pskaloya/Documents/TUOS/2-Semester/COM6012ScalableMachineLearning/ScalableML-Prabh-GIT/Assignment1/Data/NASA_access_log_Jul95.gz").cache()
+logFile = spark.read.text("Data/NASA_access_log_Jul95.gz").cache()
 
 host_data = logFile.withColumn('host', F.regexp_extract('value', '^(.*) - -.*', 1)).drop("value").cache()
 
@@ -36,7 +36,7 @@ fig, ax = plt.subplots(1,1, figsize =(8,6))
 ax.bar(["Japan","UK","US"],[hosts_Japan_uni,hosts_UK_uni,hosts_US_uni])
 ax.set_xlabel('Count')
 ax.set_ylabel('Countries')
-plt.savefig("/Users/pskaloya/Documents/TUOS/2-Semester/COM6012ScalableMachineLearning/ScalableML-Prabh-GIT/Assignment1/Output/Question1_A.png")
+plt.savefig("Output/Question1_A.png")
 
 
 
@@ -51,7 +51,7 @@ fig, ax = plt.subplots(1,1, figsize =(8,6))
 ax.pie(x=hostnames_Japan_count_top9,labels=hostnames_Japan_top9,radius=2,textprops = {'fontsize':10, 'color':'black'},autopct = '%3.2f%%')
 ax.set_xlabel('Count')
 ax.set_ylabel('Countries')
-plt.savefig("/Users/pskaloya/Documents/TUOS/2-Semester/COM6012ScalableMachineLearning/ScalableML-Prabh-GIT/Assignment1/Output/Question1_B.png")
+plt.savefig("Output/Question1_B.png")
 
 
 spark.stop()
