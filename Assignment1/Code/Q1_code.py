@@ -49,7 +49,7 @@ labels = [str(row['host']) for row in hostnames_Japan_top9]
 hostnames_Japan_count_top9 = hosts_Japan_uni_extracted.select('count').collect()
 x = [int(row['count']) for row in hostnames_Japan_count_top9]
 
-fig, ax = plt.subplots(1,1, figsize =(8,6))
+fig, ax = plt.subplots(1,1, figsize =(20,15))
 ax.pie(x=x,labels=labels, radius=2, textprops = {'fontsize':10, 'color':'black'}, autopct = '%3.2f%%')
 ax.set_xlabel('Count')
 ax.set_ylabel('Countries')
