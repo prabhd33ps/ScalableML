@@ -45,10 +45,12 @@ extract_website_udf = udf(extract_website, t.StringType())
 hosts_Japan_uni_extracted = hosts_Japan_uni.withColumn('host',extract_website_udf('host')).groupBy("host").count().orderBy('count',ascending=False).limit(9).cache()
 
 hostnames_Japan_top9 = hosts_Japan_uni_extracted.select('host').collect()
+x = [str(row['host']) for row in hostnames_Japan_top9]
 hostnames_Japan_count_top9 = hosts_Japan_uni_extracted.select('count').collect()
+labels = [int(row['count']) for row in hostnames_Japan_count_top9]
 
 fig, ax = plt.subplots(1,1, figsize =(8,6))
-ax.pie(x=hostnames_Japan_count_top9,labels=hostnames_Japan_top9,radius=2,textprops = {'fontsize':10, 'color':'black'},autopct = '%3.2f%%')
+ax.pie(x=x,labels=labels, radius=2, textprops = {'fontsize':10, 'color':'black'}, autopct = '%3.2f%%')
 ax.set_xlabel('Count')
 ax.set_ylabel('Countries')
 plt.savefig("Output/Question1_B.png")
