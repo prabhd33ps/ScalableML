@@ -55,5 +55,7 @@ ax.set_xlabel('Count')
 ax.set_ylabel('Countries')
 plt.savefig("Output/Question1_B.png")
 
+print("Finished")
+
 
 spark.stop()
