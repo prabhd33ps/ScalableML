@@ -32,11 +32,16 @@ print("\n\nThere are %i hosts from UK Universities.\n\n" % (hosts_UK_uni.count()
 print("\n\nThere are %i hosts from US Universities.\n\n" % (hosts_US_uni.count()))
 
 
-fig, ax = plt.subplots(1,1, figsize =(8,6))
-ax.bar(["Japan","UK","US"],[hosts_Japan_uni.count(),hosts_UK_uni.count(),hosts_US_uni.count()])
-ax.set_xlabel('Count')
-ax.set_ylabel('Countries')
-plt.savefig("Output/Question1_A_2.png")
+fig = plt.figure(figsize=(16,6))
+
+
+#fig, ax = plt.subplots(1,1, figsize =(8,6))
+
+ax0 = fig.add_subplot(121)
+ax0.bar(["Japan","UK","US"],[hosts_Japan_uni.count(),hosts_UK_uni.count(),hosts_US_uni.count()])
+ax0.set_xlabel('Count')
+ax0.set_ylabel('Countries')
+#plt.savefig("Output/Question1_A_2.png")
 
 
 
@@ -49,11 +54,14 @@ labels = [str(row['host']) for row in hostnames_Japan_top9]
 hostnames_Japan_count_top9 = hosts_Japan_uni_extracted.select('count').collect()
 x = [int(row['count']) for row in hostnames_Japan_count_top9]
 
-fig, ax = plt.subplots(1,1, figsize =(10,8))
-ax.pie(x=x,labels=labels, radius=2, textprops = {'fontsize':10, 'color':'black'}, autopct = '%3.2f%%')
-ax.set_xlabel('Count')
-ax.set_ylabel('Countries')
-plt.savefig("Output/Question1_B_2.png")
+#fig, ax = plt.subplots(1,1, figsize =(10,8))
+
+ax1 = fig.add_subplot(122)
+ax1.pie(x=x,labels=labels, radius=2, textprops = {'fontsize':10, 'color':'black'}, autopct = '%3.2f%%')
+ax1.set_xlabel('Count')
+ax1.set_ylabel('Countries')
+plt.tight_layout()
+plt.savefig('plots.png')
 
 print("Finished")
 
