@@ -36,7 +36,7 @@ fig, ax = plt.subplots(1,1, figsize =(8,6))
 ax.bar(["Japan","UK","US"],[hosts_Japan_uni.count(),hosts_UK_uni.count(),hosts_US_uni.count()])
 ax.set_xlabel('Count')
 ax.set_ylabel('Countries')
-plt.savefig("Output/Question1_A.png")
+plt.savefig("Output/Question1_A_2.png")
 
 
 
@@ -53,7 +53,7 @@ fig, ax = plt.subplots(1,1, figsize =(20,15))
 ax.pie(x=x,labels=labels, radius=2, textprops = {'fontsize':10, 'color':'black'}, autopct = '%3.2f%%')
 ax.set_xlabel('Count')
 ax.set_ylabel('Countries')
-plt.savefig("Output/Question1_B.png")
+plt.savefig("Output/Question1_B_2.png")
 
 print("Finished")
 
