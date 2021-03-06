@@ -42,7 +42,7 @@ plt.savefig("Output/Question1_A.png")
 
 extract_website_udf = udf(extract_website, t.StringType())
 
-hosts_Japan_uni_extracted = hosts_Japan_uni.withColumn('host',extract_website_udf('host')).groupBy("host").orderBy('count',ascending=False).limit(9).cache()
+hosts_Japan_uni_extracted = hosts_Japan_uni.withColumn('host',extract_website_udf('host')).groupBy("host").count().orderBy('count',ascending=False).limit(9).cache()
 
 hostnames_Japan_top9 = hosts_Japan_uni_extracted.select('host').collect()
 hostnames_Japan_count_top9 = hosts_Japan_uni_extracted.select('count').collect()
