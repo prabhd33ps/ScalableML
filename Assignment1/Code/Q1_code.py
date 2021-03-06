@@ -33,7 +33,7 @@ print("\n\nThere are %i hosts from US Universities.\n\n" % (hosts_US_uni.count()
 
 
 fig, ax = plt.subplots(1,1, figsize =(8,6))
-ax.bar(["Japan","UK","US"],[hosts_Japan_uni,hosts_UK_uni,hosts_US_uni])
+ax.bar(["Japan","UK","US"],[hosts_Japan_uni.count(),hosts_UK_uni.count(),hosts_US_uni.count()])
 ax.set_xlabel('Count')
 ax.set_ylabel('Countries')
 plt.savefig("Output/Question1_A.png")
