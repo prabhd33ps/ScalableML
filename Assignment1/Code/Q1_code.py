@@ -27,9 +27,9 @@ hosts_Japan_uni = host_data.filter(host_data.host.endswith(".ac.jp")).count()
 hosts_UK_uni = host_data.filter(host_data.host.endswith(".ac.uk")).count()
 hosts_US_uni = host_data.filter(host_data.host.endswith(".edu")).count()
 
-print("\n\nThere are %i hosts from Japan Universities.\n\n" % (hostsJapan_uni))
-print("\n\nThere are %i hosts from UK Universities.\n\n" % (hostsUK_uni))
-print("\n\nThere are %i hosts from US Universities.\n\n" % (hostsUS_uni))
+print("\n\nThere are %i hosts from Japan Universities.\n\n" % (hosts_Japan_uni))
+print("\n\nThere are %i hosts from UK Universities.\n\n" % (hosts_UK_uni))
+print("\n\nThere are %i hosts from US Universities.\n\n" % (hosts_US_uni))
 
 
 fig, ax = plt.subplots(1,1, figsize =(8,6))
