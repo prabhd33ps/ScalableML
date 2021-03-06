@@ -58,8 +58,6 @@ x = [int(row['count']) for row in hostnames_Japan_count_top9]
 
 ax1 = fig.add_subplot(122)
 ax1.pie(x=x,labels=labels, radius=2, textprops = {'fontsize':10, 'color':'black'}, autopct = '%3.2f%%')
-ax1.set_xlabel('Count')
-ax1.set_ylabel('Countries')
 plt.tight_layout()
 plt.savefig('plots.png')
 
