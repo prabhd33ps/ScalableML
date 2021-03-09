@@ -34,11 +34,11 @@ df3 = df3.withColumn("hour", df3["hour"].cast(IntegerType()))
 data2 = logFile.withColumn('host', F.regexp_extract('value', '^(.*) - -.*', 1)) \
                 .withColumn('timestamp', F.regexp_extract('value', '.* - - \[(.*)\].*',1)).drop("value").cache()
 
+heatmap1_data = pd.pivot_table(df2, values='count',
+                     index=['date'],
+                     columns='hour')
 
-
-for i in range(1,31+1):
-    for j in range(24):
-        hm[i][j] = df3.filter(df3['date']==i).filter(df3['hour']==j).collect()[0][2]
+sns.heatmap(heatmap1_data, cmap="YlGnBu")
 
 
 
