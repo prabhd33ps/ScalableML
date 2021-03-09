@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 
 spark = SparkSession.builder \
-    .master("local[2]") \
+    .master("local[*]") \
     .appName("COM6021_Question_1") \
     .config("spark.local.dir","/fastdata/lip20ps") \
     .getOrCreate()
