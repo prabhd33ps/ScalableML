@@ -75,9 +75,9 @@ kmeansmodel_50 = kmeans_50.fit(userFactors_50)
 
 summary_50 = kmeansmodel_50.summary
 
-#summary_50.clusterSizes
+summary_50.clusterSizes
 
-print("Clusters sizes are "+summary_50.clusterSizes)
+print("Clusters sizes are "+str(summary_50.clusterSizes))
 
 
 
