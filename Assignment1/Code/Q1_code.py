@@ -107,8 +107,6 @@ ax1.title("Pie Chart for Japan University Hosts")
 
 
 
-
-
 plt.tight_layout()
 plt.savefig('plots.png')
 print("Finished")
