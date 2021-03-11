@@ -1,0 +1,110 @@
+Conda uses environments to load different sets of Python packages
+type conda env list to see the environments availible.
+21/03/11 22:26:35 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+21/03/11 22:26:38 INFO SparkContext: Running Spark version 3.0.1
+21/03/11 22:26:38 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+21/03/11 22:26:38 INFO ResourceUtils: ==============================================================
+21/03/11 22:26:38 INFO ResourceUtils: Resources for spark.driver:
+
+21/03/11 22:26:38 INFO ResourceUtils: ==============================================================
+21/03/11 22:26:38 INFO SparkContext: Submitted application: COM6021_Assignment1_Question_2
+21/03/11 22:26:38 INFO SecurityManager: Changing view acls to: lip20ps
+21/03/11 22:26:38 INFO SecurityManager: Changing modify acls to: lip20ps
+21/03/11 22:26:38 INFO SecurityManager: Changing view acls groups to: 
+21/03/11 22:26:38 INFO SecurityManager: Changing modify acls groups to: 
+21/03/11 22:26:38 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(lip20ps); groups with view permissions: Set(); users  with modify permissions: Set(lip20ps); groups with modify permissions: Set()
+21/03/11 22:26:39 INFO Utils: Successfully started service 'sparkDriver' on port 45703.
+21/03/11 22:26:39 INFO SparkEnv: Registering MapOutputTracker
+21/03/11 22:26:39 INFO SparkEnv: Registering BlockManagerMaster
+21/03/11 22:26:39 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+21/03/11 22:26:39 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+21/03/11 22:26:39 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+21/03/11 22:26:39 INFO DiskBlockManager: Created local directory at /mnt/fastdata/lip20ps/blockmgr-7244bd78-0ce0-4ffa-8a27-22487865bd5c
+21/03/11 22:26:39 INFO MemoryStore: MemoryStore started with capacity 6.2 GiB
+21/03/11 22:26:39 INFO SparkEnv: Registering OutputCommitCoordinator
+21/03/11 22:26:39 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+21/03/11 22:26:39 INFO Utils: Successfully started service 'SparkUI' on port 4041.
+21/03/11 22:26:39 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://sharc-node002.shef.ac.uk:4041
+21/03/11 22:26:40 INFO Executor: Starting executor ID driver on host sharc-node002.shef.ac.uk
+21/03/11 22:26:40 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 45412.
+21/03/11 22:26:40 INFO NettyBlockTransferService: Server created on sharc-node002.shef.ac.uk:45412
+21/03/11 22:26:40 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+21/03/11 22:26:40 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, sharc-node002.shef.ac.uk, 45412, None)
+21/03/11 22:26:40 INFO BlockManagerMasterEndpoint: Registering block manager sharc-node002.shef.ac.uk:45412 with 6.2 GiB RAM, BlockManagerId(driver, sharc-node002.shef.ac.uk, 45412, None)
+21/03/11 22:26:40 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, sharc-node002.shef.ac.uk, 45412, None)
+21/03/11 22:26:40 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, sharc-node002.shef.ac.uk, 45412, None)
+21/03/11 22:26:42 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir ('file:/home/lip20ps/ScalableGIT/Assignment1/Code/spark-warehouse').
+21/03/11 22:26:42 INFO SharedState: Warehouse path is 'file:/home/lip20ps/ScalableGIT/Assignment1/Code/spark-warehouse'.
+Starting loading train data
++------+-------+------+---------+
+|userId|movieId|rating|timestamp|
++------+-------+------+---------+
+| 56769|   1176|   4.0|789652004|
+|237556|     21|   3.0|789652009|
+|237556|     47|   5.0|789652009|
+|237556|   1079|   3.0|789652009|
+|  5358|     19|   1.0|822873600|
+| 26999|      2|   4.0|822873600|
+| 26999|      7|   5.0|822873600|
+| 26999|     10|   5.0|822873600|
+| 26999|     11|   5.0|822873600|
+| 26999|     12|   1.0|822873600|
++------+-------+------+---------+
+only showing top 10 rows
+
+Train data loaded
+Starting loading test data
++------+-------+------+----------+
+|userId|movieId|rating| timestamp|
++------+-------+------+----------+
+| 82922| 167780|   4.0|1537945149|
+| 82922|  53519|   4.0|1537945130|
+|280481|    494|   3.0|1537945127|
+|280481|   2355|   3.0|1537945123|
+|280481|   2294|   2.0|1537945121|
+|280481| 176101|   3.5|1537945110|
+|280481|  64614|   3.0|1537945102|
+| 82922| 165831|   4.0|1537945089|
+|280481|   1079|   2.5|1537945086|
+| 82922|  52281|   4.0|1537945085|
++------+-------+------+----------+
+only showing top 10 rows
+
+Train data loaded
+21/03/11 22:32:36 WARN BLAS: Failed to load implementation from: com.github.fommil.netlib.NativeSystemBLAS
+21/03/11 22:32:36 WARN BLAS: Failed to load implementation from: com.github.fommil.netlib.NativeRefBLAS
+21/03/11 22:32:39 WARN LAPACK: Failed to load implementation from: com.github.fommil.netlib.NativeSystemLAPACK
+21/03/11 22:32:39 WARN LAPACK: Failed to load implementation from: com.github.fommil.netlib.NativeRefLAPACK
+Evaluation for 80/20 split
+Root-mean-square error = 0.8605601878437035
+Mean-square error = 0.7405638369015902
+Mean-Absolute error = 0.6453553379434266
+Root-mean-square error variation 1 = 0.8680634336819107
+Mean-square error variation 1 = 0.753534124895629
+Mean-Absolute error variation 1 = 0.6466348956046021
+Root-mean-square error variation 2 = 0.8631292325623035
+Mean-square error variation 2 = 0.7449920721035908
+Mean-Absolute error variation 2 = 0.6488295587590106
+Clusters sizes are [12965, 8053, 13576, 11771, 9904, 11463, 8419, 6332, 11465, 21527, 20310, 19892, 6889, 16754, 13425, 12334, 4376, 15545, 6755, 10339]
+Top 3 cluster with 80/20 split are 21527,20310 and 19892
+Getting the list of all the user from largest cluster for 80 split
+Converting it a python list - largestClusterUsers_80_list
+Fetching for train data
+Getting the movies id for all the users from largest cluster - Split 80
+Converting it a python list - moviesforLargestCuster_80_list
+Getting all the genres for the movies against the largest cluster - split 80
+Converting it a python list - genres_largestCluster_list
+Split the pipe '|' from the genres and adding them to list
+Top 5 genres for 80-20 split  ['Drama', 'Comedy', 'Romance', 'Thriller', 'Action']
+Fetching for test data
+Getting the movies id for all the users from largest cluster - Split 50
+Converting it a python list - moviesforLargestCuster_50_list
+Getting all the genres for the movies against the largest cluster - split 50
+Converting it a python list - genres_largestCluster_list
+Split the pipe '|' from the genres and adding them to list
+Top 5 genres for 50-50 split for train data  ['Drama', 'Comedy', 'Thriller', 'Romance', 'Action']
+Time take 1239.5909638404846
+#####################################################
+Clearing cache 
+#####################################################
