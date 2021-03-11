@@ -6,10 +6,14 @@ from pyspark.ml.clustering import KMeans
 
 from collections import Counter
 
+import time
+
 #import pyspark.sql.functions as F
 #from pyspark.sql.functions import udf
 #from pyspark.sql import types as t
 #import matplotlib.pyplot as plt
+
+start = time.time()
 
 spark = SparkSession.builder \
     .master("local[*]") \
@@ -138,6 +142,10 @@ top3genres = Counter(final_genres).most_common(3)
 genres_list = [name for (name, value) in top3genres]
 
 print("Top 3 genres in ",genres_list)
+
+stop = time.time() - start
+
+print("Time take",stop)
 
 #
 # di = {}
