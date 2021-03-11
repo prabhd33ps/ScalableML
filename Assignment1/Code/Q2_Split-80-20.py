@@ -172,7 +172,7 @@ print("Converting it a python list - largestClusterUsers_80_list")
 largestClusterUsers_80_list = [int(row.id) for row in largestClusterUsers_80]
 
 
-
+print("Fetching for train data")
 print("Getting the movies id for all the users from largest cluster - Split 80")
 moviesforLargestCuster_80 = train.filter(train['userID'].isin(largestClusterUsers_80_list)).filter(ratings['rating']>=4).select('movieId').collect()
 print("Converting it a python list - moviesforLargestCuster_80_list")

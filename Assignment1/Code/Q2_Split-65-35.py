@@ -171,6 +171,9 @@ largestClusterUsers_65 = predictions_65.filter(predictions_65['prediction']==ind
 print("Converting it a python list - largestClusterUsers_65_list")
 largestClusterUsers_65_list = [int(row.id) for row in largestClusterUsers_65]
 
+
+
+print("Fetching for train data")
 print("Getting the movies id for all the users from largest cluster - Split 65")
 moviesforLargestCuster_65 = train.filter(train['userID'].isin(largestClusterUsers_65_list)).filter(ratings['rating']>=4).select('movieId').collect()
 print("Converting it a python list - moviesforLargestCuster_65_list")
