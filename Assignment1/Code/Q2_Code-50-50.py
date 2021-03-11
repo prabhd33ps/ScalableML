@@ -9,6 +9,7 @@ matplotlib.use('Agg') # Must be before importing matplotlib.pyplot or pylab!
 import matplotlib.pyplot as plt
 
 
+
 start = time.time()
 
 # spark = SparkSession.builder \
@@ -76,6 +77,7 @@ model_50 = als_50.fit(train)
 
 #Perdictions
 predictions_50 = model_50.transform(test)
+predictions_50 = predictions_50.cache()
 
 print("Evaluation for 50/50 split")
 ## Question 2.A.3 for time-split 50%
@@ -214,13 +216,11 @@ for genre in genres_largestCluster_list:
         final_genres_50.append(genre)
 
 
-
 top5genres_50 = Counter(final_genres_50).most_common(5)
 
 genres_list = [name for (name, value) in top5genres_50]
 
-print("Top 5 genres in ",genres_list)
-
+print("Top 5 genres in ", genres_list)
 
 #
 # di = {}
@@ -244,7 +244,3 @@ print("#####################################################")
 print("Clearing cache ")
 print("#####################################################")
 spark.catalog.clearCache()
-
-
-
-
