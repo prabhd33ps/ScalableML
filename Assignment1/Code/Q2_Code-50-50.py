@@ -8,14 +8,7 @@ import matplotlib
 matplotlib.use('Agg') # Must be before importing matplotlib.pyplot or pylab!
 import matplotlib.pyplot as plt
 
-
-
 start = time.time()
-
-# spark = SparkSession.builder \
-#     .master("local[*]") \
-#     .appName("COM6021_Assignment1_Question_2") \
-#     .getOrCreate()
 
 
 spark = SparkSession.builder \
@@ -72,7 +65,7 @@ myseed = 200206518
 
 als_50 = ALS(userCol="userId", itemCol="movieId", seed=myseed, coldStartStrategy="drop")
 
-# Trainnig the model
+# Training the model
 model_50 = als_50.fit(train)
 
 #Perdictions
@@ -107,20 +100,20 @@ predictions_50_1 = model_50_1.transform(test)
 
 
 rmse_50_1 = evaluator_rmse.evaluate(predictions_50_1)
-print("Root-mean-square error Variable 1 = " + str(rmse_50_1))
+print("Root-mean-square error variation 1 = " + str(rmse_50_1))
 
 mse_50_1 = evaluator_mse.evaluate(predictions_50_1)
-print("Mean-square error Variable 1 = " + str(mse_50_1))
+print("Mean-square error variation 1 = " + str(mse_50_1))
 
 mae_50_1 = evaluator_mae.evaluate(predictions_50_1)
-print("Mean-Absolute error Variable 1 = " + str(mae_50_1))
+print("Mean-Absolute error variation 1 = " + str(mae_50_1))
 
 
 ############################################################################################################
 ################################## ASL Variation number 2 ##################################################
 ############################################################################################################
 
-als_50_2 = ALS(userCol="userId", itemCol="movieId", seed=myseed, coldStartStrategy="drop",maxIter=10, regParam=0.05, rank=20)
+als_50_2 = ALS(userCol="userId", itemCol="movieId", seed=myseed, coldStartStrategy="drop", regParam=0.5)
 
 # Traninig the model
 model_50_2 = als_50_2.fit(train)
@@ -178,7 +171,7 @@ print("Converting it a python list - largestClusterUsers_50_list")
 largestClusterUsers_50_list = [int(row.id) for row in largestClusterUsers_50]
 
 
-
+print("Fetching for train data")
 print("Getting the movies id for all the users from largest cluster - Split 50")
 moviesforLargestCuster_50 = train.filter(train['userID'].isin(largestClusterUsers_50_list)).filter(ratings['rating']>=4).select('movieId').collect()
 print("Converting it a python list - moviesforLargestCuster_50_list")
@@ -186,12 +179,6 @@ moviesforLargestCuster_50_list = [int(r.movieId) for r in moviesforLargestCuster
 
 ## Removing the dulpicate values
 moviesforLargestCuster_50_set = set(moviesforLargestCuster_50_list)
-
-# largestClusterUsers_4plus_filtered = train.filter(train['userID'].isin(largestClusterUsers_50_list)).filter(ratings['rating']>=4).select('movieId').collect()
-
-# print("geting moviesforLargestCuster")
-
-# moviesforLargestCuster = largestClusterUsers_4plus_filtered.select('movieId').collect()
 
 # Loading the movies data
 movies = spark.read.load('../Data/ml-latest/movies.csv', format = 'csv', inferSchema = "true", header = "true").cache()
@@ -220,23 +207,50 @@ top5genres_50 = Counter(final_genres_50).most_common(5)
 
 genres_list = [name for (name, value) in top5genres_50]
 
-print("Top 5 genres in ", genres_list)
+print("Top 5 genres for 50-50 split for train data ", genres_list)
 
-#
-# di = {}
-#
-# for genre in genres_largestCluster_list:
-#     if '|' in genre:
-#         for x in genre.split('|'):
-#             if x in di.keys():
-#                 di[x] += 1
-#             else:
-#                 di[x] = 1
-#     else:
-#         if genre in di.keys():
-#             di[genre] += 1
-#         else:
-#             di[genre] = 1
+
+
+
+
+
+
+print("Fetching for test data")
+print("Getting the movies id for all the users from largest cluster - Split 50")
+moviesforLargestCuster_50_test = test.filter(test['userID'].isin(largestClusterUsers_50_list)).filter(ratings['rating']>=4).select('movieId').collect()
+print("Converting it a python list - moviesforLargestCuster_50_list")
+moviesforLargestCuster_50_test_list = [int(r.movieId) for r in moviesforLargestCuster_50_test]
+
+## Removing the dulpicate values
+moviesforLargestCuster_50_test_set = set(moviesforLargestCuster_50_test_list)
+
+print("Getting all the genres for the movies against the largest cluster - split 50")
+genres_largestCluster_test_50 = movies.filter(movies['movieID'].isin(moviesforLargestCuster_50_test_set)).select('genres').collect()
+print("Converting it a python list - genres_largestCluster_list")
+genres_largestCluster_test_list = [r.genres for r in genres_largestCluster_test_50]
+
+
+
+print("Split the pipe '|' from the genres and adding them to list")
+final_genres_test_50 = []
+
+for genre in genres_largestCluster_test_list:
+    if '|' in genre:
+        for x in genre.split('|'):
+            final_genres_test_50.append(x)
+
+    else:
+        final_genres_test_50.append(genre)
+
+
+top5genres_test_50 = Counter(final_genres_test_50).most_common(5)
+
+genres_test_list = [name for (name, value) in top5genres_test_50]
+
+print("Top 5 genres for 50-50 split for train data ", genres_test_list)
+
+
+
 stop = time.time() - start
 print("Time take",stop)
 
@@ -244,3 +258,5 @@ print("#####################################################")
 print("Clearing cache ")
 print("#####################################################")
 spark.catalog.clearCache()
+
+spark.stop()
