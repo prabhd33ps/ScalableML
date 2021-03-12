@@ -33,8 +33,6 @@ sc.setLogLevel("WARN")
 
 # Loading the Rating data
 ratings = spark.read.load('../Data/ml-latest/ratings.csv', format = 'csv', inferSchema = "true", header = "true")
-# ratings = spark.read.load('/Users/pskaloya/Downloads/ml-latest-small/ratings.csv', format = 'csv', inferSchema = "true", header = "true")
-
 
 # Sorting the data with timestamp
 ratings = ratings.orderBy('timestamp',ascending=True)
@@ -184,7 +182,6 @@ moviesforLargestCuster_65_set = set(moviesforLargestCuster_65_list)
 
 # Loading the movies data
 movies = spark.read.load('../Data/ml-latest/movies.csv', format = 'csv', inferSchema = "true", header = "true").cache()
-# movies = spark.read.load('/Users/pskaloya/Downloads/ml-latest-small/movies.csv', format = 'csv', inferSchema = "true", header = "true").cache()
 
 print("Getting all the genres for the movies against the largest cluster - split 65")
 genres_largestCluster_65 = movies.filter(movies['movieID'].isin(moviesforLargestCuster_65_set)).select('genres').collect()
