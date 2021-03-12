@@ -210,20 +210,19 @@ MostFrequest_US_data = data.filter(data.host.contains(MostFrequest_US))
 Japan_date_hour = MostFrequest_Japan_data.withColumn('date',F.regexp_extract('timestamp', '(^\d+).*:\d+:\d+:',1)) \
         .withColumn('hour',F.regexp_extract('timestamp', '.*:(\d+):\d+:',1)).drop('host','timestamp').cache()
 Japan_date_hour_count = Japan_date_hour.groupBy('date','hour').count()
-Japan_heatmap_DF = pd.pivot_table(Japan_date_hour_count, values='count',index='hour', columns='date')
+Japan_heatmap_DF = pd.pivot_table(Japan_date_hour_count.toPandas(), values='count',index='hour', columns='date')
 
 
 UK_date_hour = MostFrequest_UK_data.withColumn('date',F.regexp_extract('timestamp', '(^\d+).*:\d+:\d+:',1)) \
         .withColumn('hour',F.regexp_extract('timestamp', '.*:(\d+):\d+:',1)).drop('host','timestamp').cache()
 UK_date_hour_count = UK_date_hour.groupBy('date','hour').count()
-UK_heatmap_DF = pd.pivot_table(UK_date_hour_count, values='count',index='hour', columns='date')
+UK_heatmap_DF = pd.pivot_table(UK_date_hour_count.toPandas(), values='count',index='hour', columns='date')
 
 
 US_date_hour = MostFrequest_US_data.withColumn('date',F.regexp_extract('timestamp', '(^\d+).*:\d+:\d+:',1)) \
         .withColumn('hour',F.regexp_extract('timestamp', '.*:(\d+):\d+:',1)).drop('host','timestamp').cache()
 US_date_hour_count = US_date_hour.groupBy('date','hour').count()
-US_heatmap_DF = pd.pivot_table(US_date_hour_count, values='count',index='hour', columns='date')
-
+US_heatmap_DF = pd.pivot_table(US_date_hour_count.toPandas(), values='count',index='hour', columns='date')
 
 ## Ploting heatmap for Japan
 print("Ploting heatmap for Japan")
