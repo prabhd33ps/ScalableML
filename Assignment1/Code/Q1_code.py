@@ -264,7 +264,7 @@ plt.xticks(np.arange(int(max(US_date_hour_count_pandas['date']))))
 plt.yticks(np.arange(int(max(US_date_hour_count_pandas['hour']))))
 plt.xlabel("Date", fontsize=13)
 plt.ylabel("Hour", fontsize=13)
-plt.title("Heatmaps for Top University in UK", fontsize=18)
+plt.title("Heatmaps for Top University in US", fontsize=18)
 plt.savefig("../Output/Q1_HeatMap_US.png")
 
 #Clearning the figure for next figure
