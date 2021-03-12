@@ -183,7 +183,7 @@ labels_US.append('Rest')
 print("Ploting Pie Chart for US")
 plt.figure(figsize=(15,12))
 plt.title("Pie Chart for US University Hosts")
-plt.pie(x=Total_US_hits, labels=labels_US, radius=2, textprops = {'fontsize':10, 'color':'black'}, autopct = '%3.2f%%')
+plt.pie(x=Top_US_values, labels=labels_US, radius=2, textprops = {'fontsize':10, 'color':'black'}, autopct = '%3.2f%%')
 plt.tight_layout()
 plt.savefig("../Output/Q1_pie_chart_US.png")
 
