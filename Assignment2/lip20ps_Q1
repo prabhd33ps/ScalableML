@@ -1,0 +1,163 @@
+
+from pyspark.sql.types import DoubleType
+from pyspark.ml import Pipeline
+from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
+from pyspark.ml.classification import RandomForestClassifier
+from pyspark.ml.classification import GBTClassifier
+from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.evaluation import BinaryClassificationEvaluator
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+import json
+
+
+
+spark = SparkSession.builder \
+        .master("local[2]") \
+        .appName("Assignment2_Question1-part1") \
+        .config("spark.local.dir","/fastdata/lip20ps") \
+        .getOrCreate()
+
+
+sc = spark.sparkContext
+sc.setLogLevel("WARN")
+
+
+data = spark.read.csv('./Data/HIGGS.csv.gz')
+
+
+# Renaming the label coulmn
+data = data.withColumnRenamed('_c0','label')
+
+
+
+ncolumns = len(data.columns)
+
+column_names = data.schema.names
+
+# Casting the all the column with Double data type
+for i in range(ncolumns):
+    data = data.withColumn(column_names[i], data[column_names[i]].cast(DoubleType()))
+
+
+data.printSchema()
+
+sample_data = data.sample(False,0.01,seed=42)
+
+# split training data and test data 
+(trainingData, testData) = sample_data.randomSplit([0.7, 0.3], 42)
+
+trainingData = trainingData.cache()
+testData = testData.cache()
+
+
+
+########################################################################################################################
+########################################## Random Forest Classifier#####################################################
+########################################################################################################################
+
+# Concatenating all the features in a vector
+assembler = VectorAssembler(inputCols = column_names[1:ncolumns], outputCol = 'features')
+
+# Creating an instance for Random forest classifier
+rf = RandomForestClassifier(labelCol="label", featuresCol=assembler.getOutputCol())
+
+
+rf_pipeline = Pipeline(stages=[assembler,rf])
+
+
+
+# rfc_paramGrid = ParamGridBuilder().addGrid(rfc.maxDepth,[5,6,7]).addGrid(rf.impurity, ['entropy', 'gini']).addGrid(rf.maxBins, [32,16,48]).build()
+
+rf_paramGrid = ParamGridBuilder().addGrid(rf.maxDepth,[1, 5, 10]).addGrid(rf.impurity, ['entropy', 'gini']).addGrid(rf.maxBins, [2, 10, 20]).build()
+
+
+
+AUC_evaluator = BinaryClassificationEvaluator(rawPredictionCol='rawPrediction', labelCol='label', metricName="areaUnderROC")
+accuracy_evaluator = MulticlassClassificationEvaluator(labelCol="label", predictionCol="prediction", metricName="accuracy")
+
+
+
+rf_paramGrid = CrossValidator(estimator=rf_pipeline,
+                              estimatorParamMaps=rf_paramGrid,
+                              evaluator=accuracy_evaluator,
+                              numFolds=5)
+
+
+
+
+cvModel_rf = rf_paramGrid.fit(trainingData)   
+
+
+
+
+
+
+predction_rf = cvModel_rf.transform(testData)
+
+AUC_rf = AUC_evaluator.evaluate(predction_rf)
+accuracy_rf = accuracy_evaluator.evaluate(predction_rf)
+print("area under curve of RF:",AUC_rf)
+print("Accuracy for RF:",accuracy_rf)
+
+
+# Getting the values for best model and priting the parameters
+BestPipeline_rf = cvModel_rf.bestModel
+paramDict_rf = {param[0].name: param[1] for param in BestPipeline_rf.stages[-1].extractParamMap().items()}
+print("Parameters for the best model for Random Forest Classifier")
+print(json.dumps(paramDict_rf, indent = 4))
+
+
+
+
+
+########################################################################################################################
+########################################## Gradient Forest Classifier###################################################
+########################################################################################################################
+
+
+
+
+gbt = GBTClassifier(featuresCol='features', labelCol='label')
+gbt_pipeline = Pipeline(stages=[assembler,gbt])
+
+
+gbt_paramGrid = ParamGridBuilder() \
+                        .addGrid(gbt.maxIter, [10,5,3]) \
+                                 .addGrid(gbt.stepSize, [0.01,0.1,0.3]) \
+                                         .addGrid(gbt.maxDepth, [5,6,7])    \
+                                                                 .build()
+
+
+AUC_evaluator = BinaryClassificationEvaluator(rawPredictionCol='rawPrediction', labelCol='label', metricName="areaUnderROC")
+accuracy_evaluator = MulticlassClassificationEvaluator(labelCol="label", predictionCol="prediction", metricName="accuracy")
+
+
+gbt_crossval = CrossValidator(estimator=gbt_pipeline,
+                              estimatorParamMaps=gbt_paramGrid,
+                              evaluator=accuracy_evaluator,
+                              numFolds=5)
+
+
+## Training the model
+cvModel_gbt = gbt_crossval.fit(trainingData)  
+
+
+## fetching the best model from trained Cross Validator
+BestPipeline_gbt = cvModel_gbt.bestModel
+
+
+# Getting the values for best model and priting the parameters
+BestPipeline_gbt = cvModel_gbt.bestModel
+paramDict_gbt = {param[0].name: param[1] for param in BestPipeline_gbt.stages[-1].extractParamMap().items()}
+print("Parameters for the best model for Gradient Forest Classifier")
+print(json.dumps(paramDict_gbt, indent = 4))
+
+
+## Getting the perdiction on test data and evaluating it with AUC and Accuaracy evaluator
+predction_gbt = cvModel_gbt.transform(testData)
+AUC_gbt = AUC_evaluator.evaluate(predction_gbt)
+accuracy_gbt = accuracy_evaluator.evaluate(predction_gbt)
+print("area under curve of GBT:",AUC_gbt)
+print("Accuracy for GBT:",accuracy_gbt)
+
+
